@@ -1,0 +1,26 @@
+name: Exécution régulière du script Python
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Toutes les heures (UTC)
+  workflow_dispatch:      # Permet de lancer manuellement
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.9'
+
+      - name: Installer les dépendances
+        run: |
+          pip install -r requirements.txt
+
+      - name: Exécuter le script
+        run: python main.py
