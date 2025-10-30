@@ -1,0 +1,7 @@
+services:
+  - type: cron
+    name: mon-script-python
+    schedule: "0 * * * *"  # toutes les heures
+    env: python
+    buildCommand: ""
+    startCommand: "python main.py"
