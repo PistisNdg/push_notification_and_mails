@@ -132,21 +132,20 @@ def verifier_et_envoyer():
                         envoie_mail_to_all(titre, contenu)
                         send_notification(titre, contenu)
                         conn.commit()
-                        time.sleep(60)
+                        time.sleep(300)
                 #conn.close()
                     else:
                         pass
-                        time.sleep(30)  # Attendre 5 minutes avant la prochaine vérification
+                        time.sleep(300)  # Attendre 5 minutes avant la prochaine vérification
                 
             else:
                 conn.close()
-            time.sleep(30)  # Attendre 5 minutes avant la prochaine vérification
+            time.sleep(300)  # Attendre 5 minutes avant la prochaine vérification
         except Exception as e:
             logging.error(f"Erreur dans le vérificateur de news : {str(e)}")
 
             #logging.info(f"News {newsid} publiée avec succès")
 
 
-# Lancer le vérificateur en parallèle du serveur Flask
-thread = threading.Thread(target=verifier_et_envoyer, daemon=False)
-thread.start()
+# Lancer le vérificateur en parallèle du serveur Flas
+verifier_et_envoyer()
