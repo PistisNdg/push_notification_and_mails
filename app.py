@@ -125,14 +125,11 @@ def verifier_et_envoyer():
                         envoie_mail_to_all(titre, contenu)
                         send_notification(titre, contenu)
                         conn.commit()
-                        time.sleep(300)
                     else:
                         pass
-                        time.sleep(300)
                 
             else:
                 conn.close()
-            time.sleep(300)
         except Exception as e:
             logging.error(f"Erreur dans le vérificateur de news : {str(e)}")
 
