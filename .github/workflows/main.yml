@@ -1,6 +1,8 @@
 name: CCC News API CI/CD
 
 on:
+  schedule:
+    - cron: '*/5 * * * *'  # Exécution toutes les 5 minutes
   push:
     branches: [ main ]
   pull_request:
@@ -34,7 +36,7 @@ jobs:
       run: |
         python -m pytest
 
-    - name: Deploy to Production
+    - name: Run Python Script
       env:
         API_KEY: ${{ secrets.API_KEY }}
         DB_URL: ${{ secrets.DB_URL }}
@@ -42,5 +44,5 @@ jobs:
         PASS: ${{ secrets.PASS }}
         FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
       run: |
-        # Add your deployment commands here
-        echo "Deployment step - add your deployment commands"
+        python app.py
+        echo "Script executed at $(date)"
