@@ -31,7 +31,6 @@ jobs:
         PASS: ${{ secrets.PASS }}
         FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
       run: |
-        cd API
         python -m pytest
 
     - name: Deploy to Production
@@ -43,7 +42,4 @@ jobs:
         FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
       run: |
         # Add your deployment commands here
-        # For example, if using Heroku:
-        # heroku container:login
-        # heroku container:push web
-        # heroku container:release web
+        echo "Deployment step - add your deployment commands"
