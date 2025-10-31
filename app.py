@@ -20,12 +20,9 @@ EMAIL=os.getenv("EMAIL")
 PASS=os.getenv("PASS")
 
 def get_db_url():
-    # En développement, utilisez les variables d'environnement locales
-    # En production sur Render, utilisez l'URL de la base de données fournie
     return os.getenv('DB_URL')
 
 def get_connection():
-    # Obtenir l'URL de la base de données
     database_url = get_db_url()
     
     if not database_url:
@@ -34,7 +31,6 @@ def get_connection():
     return psycopg2.connect(database_url)
 
 def get_engine():
-    # Pour les opérations plus complexes nécessitant SQLAlchemy
     return create_engine(get_db_url())
 
 def send_notification(title, message):    
@@ -48,9 +44,7 @@ def send_notification(title, message):
             title='Nouvelle News !',
             body=title,
         ),
-        # Le nom du sujet doit correspondre à celui auquel les clients s'abonnent
         topic='allUsers',
-        # Vous pouvez ajouter des données personnalisées si nécessaire
     )
 
     # Envoyer le message
@@ -104,7 +98,7 @@ def envoie_mail_to_all(titre, contenu):
         
         # Résumé des envois
         logging.info(f"Résumé des envois - Succès: {success_count}, Échecs: {error_count}")
-        return success_count > 0  # Retourne True si au moins un email a été envoyé
+        return success_count > 0 
 
     except Exception as e:
         error_msg = f"Erreur générale d'envoi de mail : {str(e)}"
@@ -112,7 +106,6 @@ def envoie_mail_to_all(titre, contenu):
         return False
     
 def verifier_et_envoyer():
-    #logging.info("Démarrage du service de vérification des news")
     while True:
         try:
             conn = get_connection()
@@ -133,19 +126,14 @@ def verifier_et_envoyer():
                         send_notification(titre, contenu)
                         conn.commit()
                         time.sleep(300)
-                #conn.close()
                     else:
                         pass
-                        time.sleep(300)  # Attendre 5 minutes avant la prochaine vérification
+                        time.sleep(300)
                 
             else:
                 conn.close()
-            time.sleep(300)  # Attendre 5 minutes avant la prochaine vérification
+            time.sleep(300)
         except Exception as e:
             logging.error(f"Erreur dans le vérificateur de news : {str(e)}")
 
-            #logging.info(f"News {newsid} publiée avec succès")
-
-
-# Lancer le vérificateur en parallèle du serveur Flas
 verifier_et_envoyer()
